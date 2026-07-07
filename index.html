@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nicholas Kelly — Photography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0b0c;
+    --bg-alt:#141315;
+    --ink:#ece8e1;
+    --muted:#8c8a88;
+    --red:#c81e3a;
+    --amber:#e8a33d;
+    --pink:#eaa7c1;
+    --line: rgba(236,232,225,0.14);
+    --line-strong: rgba(236,232,225,0.28);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{display:block;width:100%;height:100%;object-fit:cover;}
+  a{color:inherit;}
+
+  .display{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+  }
+  .mono-label{
+    font-family:'JetBrains Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    font-size:11px;
+    color:var(--muted);
+  }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:22px 28px;
+    mix-blend-mode:difference;
+    pointer-events:none;
+  }
+  header.nav .wordmark{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:700;
+    font-size:18px;
+    letter-spacing:0.04em;
+    color:#fff;
+  }
+  header.nav .rolls{
+    display:flex;
+    gap:22px;
+    font-size:10px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:#fff;
+    pointer-events:auto;
+  }
+  header.nav .rolls a{text-decoration:none; opacity:0.72; transition:opacity .2s;}
+  header.nav .rolls a:hover{opacity:1;}
+  @media (max-width:720px){
+    header.nav .rolls{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    height:100vh;
+    min-height:560px;
+    width:100%;
+    overflow:hidden;
+    background:#000;
+  }
+  .hero img{
+    position:absolute; inset:0;
+    opacity:0.62;
+    filter:saturate(1.05) contrast(1.05);
+    transform:scale(1.02);
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      linear-gradient(180deg, rgba(11,11,12,0.15) 0%, rgba(11,11,12,0.35) 45%, rgba(11,11,12,0.96) 96%),
+      linear-gradient(90deg, rgba(11,11,12,0.55) 0%, rgba(11,11,12,0) 35%);
+  }
+  .hero-content{
+    position:relative;
+    z-index:2;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:0 28px 56px;
+  }
+  .hero-eyebrow{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .hero-eyebrow .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--red);
+    box-shadow:0 0 10px var(--red);
+  }
+  .hero h1{
+    font-size:clamp(52px, 12vw, 158px);
+    line-height:0.86;
+    color:var(--ink);
+  }
+  .hero h1 span{
+    display:block;
+    color:transparent;
+    -webkit-text-stroke:1.5px var(--ink);
+  }
+  .hero-sub{
+    margin-top:22px;
+    max-width:480px;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.7;
+  }
+  .scroll-cue{
+    position:absolute;
+    bottom:26px; right:28px;
+    z-index:2;
+    writing-mode:vertical-rl;
+    font-size:10px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--muted);
+    display:flex; align-items:center; gap:10px;
+  }
+  .scroll-cue::after{
+    content:"";
+    width:1px; height:44px;
+    background:linear-gradient(var(--muted), transparent);
+  }
+
+  /* ---------- INTRO STRIP ---------- */
+  .intro{
+    padding:90px 28px;
+    max-width:920px;
+    margin:0 auto;
+    border-bottom:1px solid var(--line);
+  }
+  .intro .mono-label{margin-bottom:22px; display:block;}
+  .intro p{
+    font-size:clamp(18px, 2.6vw, 26px);
+    line-height:1.55;
+    color:var(--ink);
+    font-weight:400;
+  }
+  .intro p em{
+    font-style:normal;
+    color:var(--pink);
+  }
+
+  /* ---------- ROLL SECTION SHELL ---------- */
+  .roll{
+    padding:110px 28px 40px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .roll-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:20px;
+    max-width:1400px;
+    margin:0 auto 48px;
+    padding-bottom:24px;
+    border-bottom:1px solid var(--line-strong);
+  }
+  .roll-head .no{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.1em;
+    color:var(--muted);
+    margin-bottom:10px;
+    display:block;
+  }
+  .roll-head h2{
+    font-size:clamp(34px, 6vw, 76px);
+    line-height:0.92;
+  }
+  .roll-head .meta{
+    text-align:right;
+    color:var(--muted);
+    font-size:11px;
+    letter-spacing:0.08em;
+    max-width:280px;
+  }
+  .roll-head .meta .frames{
+    color:var(--ink);
+    font-size:12px;
+    display:block;
+    margin-bottom:6px;
+  }
+
+  .grid{
+    max-width:1400px;
+    margin:0 auto;
+    display:grid;
+    gap:14px;
+  }
+  .frame{
+    position:relative;
+    overflow:hidden;
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+  }
+  .frame img{
+    transition:transform 1.1s cubic-bezier(.2,.8,.2,1), filter .6s ease;
+    filter:grayscale(0.06) contrast(1.03);
+  }
+  .frame:hover img{
+    transform:scale(1.045);
+  }
+  .frame .tag{
+    position:absolute;
+    left:12px; bottom:12px;
+    font-size:10px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:rgba(236,232,225,0.88);
+    background:rgba(11,11,12,0.55);
+    padding:5px 9px;
+    backdrop-filter:blur(3px);
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .frame:hover .tag{opacity:1; transform:translateY(0);}
+  .frame .fno{
+    position:absolute;
+    top:10px; right:12px;
+    font-size:10px;
+    letter-spacing:0.08em;
+    color:rgba(236,232,225,0.5);
+  }
+
+  /* Roll 01 — LIVE : editorial mixed grid */
+  #live .grid{
+    grid-template-columns:repeat(6,1fr);
+    grid-auto-rows:16vw;
+  }
+  #live .f1{grid-column:1/5; grid-row:1/3;}
+  #live .f2{grid-column:5/7; grid-row:1/2;}
+  #live .f3{grid-column:5/7; grid-row:2/3;}
+  #live .f4{grid-column:1/3; grid-row:3/5;}
+  @media (max-width:900px){
+    #live .grid{grid-template-columns:1fr 1fr; grid-auto-rows:56vw;}
+    #live .f1,#live .f2,#live .f3,#live .f4{grid-column:auto; grid-row:auto;}
+    #live .f1{grid-column:1/3;}
+  }
+
+  /* Roll 02 — AFTERGLOW : tall triptych */
+  #afterglow .grid{
+    grid-template-columns:1.15fr 1fr 1fr;
+    grid-auto-rows:62vh;
+  }
+  @media (max-width:900px){
+    #afterglow .grid{grid-template-columns:1fr; grid-auto-rows:82vw;}
+  }
+  #afterglow .frame img{filter:none;}
+
+  /* Roll 03 — FULL COURT */
+  #court .grid{
+    grid-template-columns:1fr 1fr;
+    grid-auto-rows:52vh;
+  }
+  @media (max-width:900px){
+    #court .grid{grid-template-columns:1fr; grid-auto-rows:88vw;}
+  }
+
+  /* Roll 04 — NIGHT WATCH */
+  #nightwatch .grid{
+    grid-template-columns:repeat(3,1fr);
+    grid-auto-rows:46vh;
+  }
+  @media (max-width:900px){
+    #nightwatch .grid{grid-template-columns:1fr; grid-auto-rows:78vw;}
+  }
+
+  /* Roll 05 — SOLO closer */
+  .solo{
+    padding:0;
+    border-bottom:none;
+  }
+  .solo .frame{
+    height:92vh;
+    border:none;
+    border-top:1px solid var(--line-strong);
+  }
+  .solo .frame img{filter:contrast(1.06) saturate(0.94);}
+  .solo-caption{
+    position:absolute;
+    left:28px; bottom:34px;
+    z-index:2;
+    max-width:420px;
+  }
+  .solo-caption .mono-label{margin-bottom:10px; display:block;}
+  .solo-caption p{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:700;
+    font-size:clamp(24px, 3.4vw, 40px);
+    line-height:1.05;
+    color:var(--ink);
+    text-transform:uppercase;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:110px 28px 50px;
+    text-align:center;
+  }
+  footer .display{
+    font-size:clamp(48px, 11vw, 140px);
+    line-height:0.9;
+    color:var(--ink);
+    margin-bottom:26px;
+  }
+  footer .contact-line{
+    display:flex;
+    justify-content:center;
+    gap:26px;
+    flex-wrap:wrap;
+    margin-bottom:60px;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  footer .contact-line a{
+    text-decoration:none;
+    border-bottom:1px solid var(--line-strong);
+    padding-bottom:2px;
+    transition:color .2s, border-color .2s;
+  }
+  footer .contact-line a:hover{color:var(--pink); border-color:var(--pink);}
+  footer .fine{
+    font-size:10px;
+    letter-spacing:0.1em;
+    color:#4c4a49;
+    text-transform:uppercase;
+  }
+
+  ::selection{background:var(--red); color:#fff;}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wordmark">N. KELLY</div>
+  <nav class="rolls">
+    <a href="#live">01 Live</a>
+    <a href="#afterglow">02 Afterglow</a>
+    <a href="#court">03 Court</a>
+    <a href="#nightwatch">04 Night Watch</a>
+    <a href="#solo">05 Solo</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <img src="photos/DSC00501.jpg" alt="Performer leaning into the crowd under stage light">
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="dot"></span>
+      <span class="mono-label">Photography — est. archive 01–05</span>
+    </div>
+    <h1 class="display">NICHOLAS<span>KELLY</span></h1>
+    <p class="hero-sub">Stage light, motion blur, and the half-second before the shutter closes. A working archive of live performance, sport, and staged nocturnes.</p>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</section>
+
+<!-- INTRO -->
+<section class="intro">
+  <span class="mono-label">Note on the work</span>
+  <p>Most of what's here happens in low light and fast motion — <em>a mic swung overhead, a crowd's flare, a body mid-fall</em>. The five rolls below aren't chronological, they're grouped by the kind of dark they were shot in.</p>
+</section>
+
+<!-- ROLL 01 — LIVE -->
+<section class="roll" id="live">
+  <div class="roll-head">
+    <div>
+      <span class="no">Roll 01</span>
+      <h2 class="display">Live</h2>
+    </div>
+    <div class="meta">
+      <span class="frames">4 frames</span>
+      Venue floor, front rail — red gel &amp; white flare.
+    </div>
+  </div>
+  <div class="grid">
+    <div class="frame f1"><img src="photos/DSC00501.jpg" alt="Vocalist leaning over the front rail into the crowd"><span class="fno">A</span><span class="tag">Front rail</span></div>
+    <div class="frame f2"><img src="photos/DSC00486.jpg" alt="Performer silhouetted against a white stage light"><span class="fno">B</span><span class="tag">White flare</span></div>
+    <div class="frame f3"><img src="photos/DSC08920.jpg" alt="Guitarist under blue and red stage light"><span class="fno">C</span><span class="tag">Blue / red wash</span></div>
+    <div class="frame f4"><img src="photos/DSC01153-2.jpg" alt="Performer captured mid stage-dive, upside down"><span class="fno">D</span><span class="tag">Mid-air</span></div>
+  </div>
+</section>
+
+<!-- ROLL 02 — AFTERGLOW -->
+<section class="roll" id="afterglow">
+  <div class="roll-head">
+    <div>
+      <span class="no">Roll 02</span>
+      <h2 class="display">Afterglow</h2>
+    </div>
+    <div class="meta">
+      <span class="frames">3 frames</span>
+      Same set, pushed through a rose duotone — the quiet cut of a loud set.
+    </div>
+  </div>
+  <div class="grid">
+    <div class="frame"><img src="photos/657172121_17934832506196084_4594899737433210986_n.jpg" alt="Duotone portrait of a vocalist singing into a mic"><span class="tag">Head back</span></div>
+    <div class="frame"><img src="photos/656440469_17934832515196084_3317248337960884636_n.jpg" alt="Duotone diptych portrait of a vocalist on and off stage"><span class="tag">Diptych</span></div>
+    <div class="frame"><img src="photos/656709649_17934832497196084_2595083998158195051_n.jpg" alt="Duotone portrait of a vocalist lying back, mic in hand"><span class="tag">Falling back</span></div>
+  </div>
+</section>
+
+<!-- ROLL 03 — COURT -->
+<section class="roll" id="court">
+  <div class="roll-head">
+    <div>
+      <span class="no">Roll 03</span>
+      <h2 class="display">Full Court</h2>
+    </div>
+    <div class="meta">
+      <span class="frames">2 frames</span>
+      Baseline and bench — held stares between plays.
+    </div>
+  </div>
+  <div class="grid">
+    <div class="frame"><img src="photos/DSC08033.jpg" alt="Basketball player on the bench looking toward the camera"><span class="tag">Bench, timeout</span></div>
+    <div class="frame"><img src="photos/DSC08051.jpg" alt="Motion-blurred basketball player walking off the court"><span class="tag">Long exposure</span></div>
+  </div>
+</section>
+
+<!-- ROLL 04 — NIGHT WATCH -->
+<section class="roll" id="nightwatch">
+  <div class="roll-head">
+    <div>
+      <span class="no">Roll 04</span>
+      <h2 class="display">Night Watch</h2>
+    </div>
+    <div class="meta">
+      <span class="frames">3 frames</span>
+      A built costume, three harbors of dark — park, marina, skyline.
+    </div>
+  </div>
+  <div class="grid">
+    <div class="frame"><img src="photos/720075283_18410258128199488_450058799215285763_n.jpg" alt="Cloaked armored figure sitting on grass at night with city skyline behind"><span class="tag">Park</span></div>
+    <div class="frame"><img src="photos/718659554_18410258071199488_7141747633067679675_n.jpg" alt="Cloaked armored figure standing at a marina at night"><span class="tag">Marina</span></div>
+    <div class="frame"><img src="photos/720317687_18410258101199488_2640072235367923309_n.jpg" alt="Cloaked figure with motion-blurred arm against a city skyline at night"><span class="tag">Skyline</span></div>
+  </div>
+</section>
+
+<!-- ROLL 05 — SOLO -->
+<section class="roll solo" id="solo">
+  <div class="frame">
+    <img src="photos/CCY04553.jpg" alt="A woman with dark hair leaning against a bridge railing, hair blown across her face">
+    <div class="solo-caption">
+      <span class="mono-label">Roll 05 — Solo / 1 frame</span>
+      <p>Bridge, midday wind.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="display">Let's shoot.</div>
+  <div class="contact-line">
+    <a href="mailto:hello@nicholaskelly.com">hello@nicholaskelly.com</a>
+    <a href="#live">Back to top</a>
+  </div>
+  <div class="fine">Nicholas Kelly — Photography Archive — All frames shot on location</div>
+</footer>
+
+</body>
+</html>
